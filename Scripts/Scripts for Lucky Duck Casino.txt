@@ -1,0 +1,147 @@
+Command line to isolate certain times and dealers from Roulette
+
+grep -i '05:00:00 AM\|08:00:00 AM\|02:00:00 PM\|08:00:00 PM\|11:00:00 PM' 0310_Dealer_schedule > TESTfile|awk '{print $1" " $2"  " $5" " $6}' TESTfile
+
+grep -iE '02:00.*pm' 0310_Dealer_schedule>TESTfile|awk '{print $1" "$2"  "$5" "$6}' TESTfile
+
+
+#!/bin/bash
+echo “What date are you looking for - Example 0310_Dealer_schedule?”
+read date
+echo “What time are you looking for - hh:mm?”
+read time
+echo “AM or PM?”
+read AMPM
+grep -iE '$time.*AMPM' $date|awk '{print $1" "$2"  "$5" "$6}'
+grep -iE '$time.*$AMPM' $date > TESTfile|awk '{print $1" "$2"  "$5" "$6}' TESTfile
+cat TESTfile
+
+grep -iE '05:00.*PM' 0310_Dealer_schedule|awk '{print $1" "$2"  "$5" "$6}'
+grep -iE '$time.*AMPM' $date|awk '{print $1" "$2"  "$5" "$6}'
+
+roulette_dealer_finder_by_time.sh
+
+#!/bin/bash
+echo “What date are you looking for - Example 0310_Dealer_schedule?”
+read date
+echo “What time are you looking for - hh:mm?”
+read time
+echo “AM or PM?”
+read AMPM
+grep -iE $time.*$AMPM $date > TESTfile
+echo " Dealer working the ROULETTE table on $date at the time specified"
+awk '{print $1" "$2"  "$5" "$6}' TESTfile
+#!/bin/bash
+echo “What game are you inquiring about - Example BlackJack, Roulette, TexasHoldM?”
+read game
+echo “What date are you looking for - Example 0310_Dealer_schedule?”
+read date
+echo “What time are you looking for - hh:mm?”
+read time
+echo “AM or PM?”
+read AMPM
+grep -iE $time.*$AMPM $date > TESTfile
+echo " Dealer working $game on $date at the time specified"
+awk 'BEGIN {
+print “Dealer working $game on $date at the time specified” 
+}
+$game == “BlackJack” 
+{print “$1" "$2"  "$3" "$4}' TESTfile
+$game == “Roulette” 
+{print “$1" "$2"  "$5" "$6}' TESTfile
+$game == “TexasHoldM” 
+{print “$1" "$2"  "$7" "$8}' TESTfile
+END {
+print “=========================”
+print “End of Report”
+}
+’
+roulette_dealer_finder_by_time_and_game.sh
+#!/bin/bash
+# Establish the variables
+    echo “What game are you inquiring about - Example BlackJack, Roulette, TexasHoldM?”
+    read game
+    echo “What date are you looking for - Example 0310_Dealer_schedule?”
+    read date
+    echo “What time are you looking for - hh:mm?”
+    read time
+    echo “AM or PM?”
+    read AMPM
+# Search correct database for correct line 
+    grep -iE $time.*$AMPM $date > TESTfile
+
+echo " Dealer working $game on $date at the time specified"
+# Choose proper output
+  if 
+    [[ $game == “BlackJack” ]] 
+  then 
+     awk ‘{print “$1" "$2"  "$3" "$4}’ TESTfile
+  elif 
+     [[ $game = “Roulette” ]] 
+  then 
+     awk ‘{print “$1" "$2"  "$5" "$6}’ TESTfile
+  else 
+     awk ‘{print “$1" "$2"  "$7" "$8}’ TESTfile
+
+echo “=========================”
+echo “End of Report”
+fi
+
+#!/bin/bash
+# Establish the variables
+    echo “What game are you inquiring about - Example BlackJack, Roulette, TexasHoldM?”
+    read game
+    echo “What date are you looking for - Example 0310_Dealer_schedule?”
+    read date
+    echo “What time are you looking for - hh:mm?”
+    read time
+    echo “AM or PM?”
+    read AMPM
+# Search correct database for correct line
+    grep -iE “$time”.*”$AMPM” “$date” > TESTfile 
+
+echo " Dealer working $game on $date at the time specified"
+# Choose proper output
+  if 
+    [[ $game == “BlackJack” ]] 
+  then 
+    awk ‘{print “"$1"" ""$2""  ""$3"" ""$4"}’ TESTfile
+  elif 
+     [[ $game = “Roulette” ]] 
+  then 
+     awk ‘{print “"$1"" ""$2""  ""$5"" ""$6"}’ TESTfile
+  else 
+     awk ‘{print “"$1"" ""$2""  ""$7"" ""$8"}’ TESTfile
+
+echo “=========================”
+echo “End of Report”
+fi
+
+#!/bin/bash
+# Establish the variables
+    echo "What game are you inquiring about - Example BlackJack, Roulette, TexasHoldM?"
+    read game
+    echo "What date are you looking for - Example 0310_Dealer_schedule?"
+    read date
+    echo "What time are you looking for - hh:mm?"
+    read time
+    echo "AM or PM?"
+    read AMPM
+# Search correct database for correct line
+    grep -iE "$time".*"$AMPM" "$date" > TESTfile
+  echo " Dealer working $game on $date at the time specified"
+# Choose proper output
+  if 
+    [[ $game == "BlackJack" ]] 
+  then 
+    awk '{print “"$1"" ""$2""  ""$3"" ""$4"}' TESTfile
+  elif 
+     [[ $game = "Roulette" ]] 
+  then 
+     awk '{print ""$1"" ""$2""  ""$5"" ""$6"}' TESTfile
+  else 
+     awk '{print ""$1"" ""$2""  ""$7"" ""$8"}' TESTfile
+
+echo "========================="
+echo "End of Report"
+fi
